@@ -11,6 +11,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.border.TitledBorder;
+
+import logica.Almacen;
+
 import java.awt.FlowLayout;
 import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
@@ -20,7 +23,7 @@ public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private Dimension dim;
-
+	private Almacen miAlma;
 	/**
 	 * Launch the application.
 	 */
@@ -28,7 +31,8 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Principal frame = new Principal();
+					Almacen alma = new Almacen();
+					Principal frame = new Principal(alma);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +44,8 @@ public class Principal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Principal() {
+	public Principal(Almacen alma) {
+		miAlma = alma;
 		setTitle("Giraldilla");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +72,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmRegistrar_1 = new JMenuItem("Registrar");
 		mntmRegistrar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				regSuministrador regSumi = new regSuministrador();
+				regSuministrador regSumi = new regSuministrador(miAlma);
 				regSumi.setModal(true);
 				regSumi.setVisible(true);
 			}
@@ -75,6 +80,13 @@ public class Principal extends JFrame {
 		mnSuministrador.add(mntmRegistrar_1);
 		
 		JMenuItem mntmListar_1 = new JMenuItem("Listar");
+		mntmListar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listSuministrador list = new listSuministrador(alma);
+				list.setModal(true);
+				list.setVisible(true);
+			}
+		});
 		mnSuministrador.add(mntmListar_1);
 		
 		JMenu mnPedidos = new JMenu("Pedidos");

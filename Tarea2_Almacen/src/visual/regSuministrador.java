@@ -9,18 +9,25 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+
+import logica.Almacen;
+import logica.Suministrador;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class regSuministrador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
+	private Almacen miAlma;
 
 	/**
 	 * Launch the application.
@@ -37,8 +44,10 @@ public class regSuministrador extends JDialog {
 */
 	/**
 	 * Create the dialog.
+	 * @param miAlma 
 	 */
-	public regSuministrador() {
+	public regSuministrador(Almacen miAlma) {
+		this.miAlma = miAlma;
 		setResizable(false);
 		setTitle("Registrar Suministrador");
 		setBounds(100, 100, 442, 204);
@@ -66,6 +75,7 @@ public class regSuministrador extends JDialog {
 		contentPanel.add(lblTiempoEntrega);
 		
 		JComboBox cbxPais = new JComboBox();
+		cbxPais.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Chile", "Republica Dominicana", "Espa\u00F1a", "Francia", "Italia", "Portugal"}));
 		cbxPais.setBounds(10, 96, 184, 20);
 		contentPanel.add(cbxPais);
 		
@@ -80,6 +90,20 @@ public class regSuministrador extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Suministrador aux = new Suministrador(txtNombre.getText(), cbxPais.getSelectedItem().toString(), Integer.valueOf(spnTiempo.getValue().toString()));
+						miAlma.insertarSuministrador(aux);
+						JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
+						clean();
+					}
+
+					private void clean() {
+						txtNombre.setText("");
+						cbxPais.setSelectedIndex(0);
+						spnTiempo.setValue(new Integer(1));
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
