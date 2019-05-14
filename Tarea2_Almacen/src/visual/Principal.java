@@ -3,26 +3,24 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.border.TitledBorder;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 import logica.Almacen;
-
-import java.awt.FlowLayout;
-import javax.swing.border.BevelBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
-	private Dimension dim;
+	private Dimension dim; //Variable stores Width x Height
 	private Almacen miAlma;
 	/**
 	 * Launch the application.
@@ -47,12 +45,12 @@ public class Principal extends JFrame {
 	public Principal(Almacen alma) {
 		miAlma = alma;
 		setTitle("Giraldilla");
-		setResizable(false);
+		setResizable(false); //para que no se pueda redimensionar
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 480);
-		dim = super.getToolkit().getScreenSize();
-		super.setSize(dim.width, dim.height-50);;
-		setLocationRelativeTo(null);
+		setBounds(100, 100, 720, 480); // definir las dimensiones de la pantalla
+		dim = super.getToolkit().getScreenSize(); //para obtener las dimensiones de la pantalla
+		super.setSize(dim.width, dim.height-50);; // definir el tamaño de la pantalla completa
+		setLocationRelativeTo(null); // para que se abra centrado
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -63,8 +61,8 @@ public class Principal extends JFrame {
 		JMenuItem mntmRegistrar = new JMenuItem("Registrar");
 		mnVino.add(mntmRegistrar);
 		
-		JMenuItem mntmListar = new JMenuItem("Listar");
-		mnVino.add(mntmListar);
+		JMenuItem mntmListado = new JMenuItem("Listado");
+		mnVino.add(mntmListado);
 		
 		JMenu mnSuministrador = new JMenu("Suministrador");
 		menuBar.add(mnSuministrador);
@@ -79,15 +77,15 @@ public class Principal extends JFrame {
 		});
 		mnSuministrador.add(mntmRegistrar_1);
 		
-		JMenuItem mntmListar_1 = new JMenuItem("Listar");
-		mntmListar_1.addActionListener(new ActionListener() {
+		JMenuItem mntmListado_1 = new JMenuItem("Listado");
+		mntmListado_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listSuministrador list = new listSuministrador(alma);
-				list.setModal(true);
+				list.setModal(true);// para que no pueda interactuar con otra ventana mientras esta se encuentra abierta
 				list.setVisible(true);
 			}
 		});
-		mnSuministrador.add(mntmListar_1);
+		mnSuministrador.add(mntmListado_1);
 		
 		JMenu mnPedidos = new JMenu("Pedidos");
 		menuBar.add(mnPedidos);
