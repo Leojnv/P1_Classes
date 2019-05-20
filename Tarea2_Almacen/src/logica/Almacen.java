@@ -43,7 +43,7 @@ public class Almacen {
 	}
 	
 	//Metodos 
-	public boolean hacerPedido(int codigo) {
+	public boolean hacerPedido(String codigo) {
 		boolean hacer = false;
 		Vino aux = null;
 		aux = buscarByCode(codigo); //Esta funcion busca un vino dado su codigo
@@ -54,7 +54,7 @@ public class Almacen {
 		}
 		return hacer;
 	}
-	private Vino buscarByCode(int codigo) {
+	private Vino buscarByCode(String codigo) {
 		Vino aux = null;
 		boolean encontrado = false;
 		int i = 0;
@@ -75,5 +75,49 @@ public class Almacen {
 	public void insertarSuministrador(Suministrador sumi) {
 		ListSum[cantSum] = sumi;
 		cantSum++;
+	}
+
+	public void EliminarSuministrador(String nombreSumi) {
+		int aux = buscarSuministrador(nombreSumi);
+		if (aux > -1) {
+			while(aux < cantSum - 1) {
+				ListSum[aux+1] = ListSum[aux];
+				aux++;
+			}
+			cantSum--;
+		}
+	}
+
+	public int buscarSuministrador(String nombreSumi) {
+		int aux = -1;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado &&  i < cantSum) { //Mientras no se haya encontrado e i sea menor a la cantidad de vinos
+			if(ListSum[i].getNombre().equalsIgnoreCase(nombreSumi)) {
+				encontrado = true;
+				aux = i;
+			}
+			i++;
+		}
+		return aux;
+	}
+
+	public Suministrador buscarSuministradorByName(String nombreSumi) {
+		Suministrador aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado &&  i < cantSum) { //Mientras no se haya encontrado e i sea menor a la cantidad de vinos
+			if(ListSum[i].getNombre().equalsIgnoreCase(nombreSumi)) {
+				encontrado = true;
+				aux = ListSum[i];
+			}
+			i++;
+		}
+		return aux;
+	}
+
+	public void modAdministrador(Suministrador miSumi) {
+		int index = buscarSuministrador(miSumi.getNombre());
+		ListSum[index] = miSumi;
 	}
 }

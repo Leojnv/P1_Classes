@@ -25,11 +25,21 @@ public class regSuministrador extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
 	private Almacen miAlma;
+	private Suministrador sumi = null;
+	private JButton okButton;
+	private JSpinner spnTiempo;
+	private JComboBox cbxPais;
 
-	public regSuministrador(Almacen miAlma) {
+	public regSuministrador(Almacen miAlma, Suministrador miSumi) {
 		this.miAlma = miAlma;
+		this.sumi = miSumi;
 		setResizable(false);
-		setTitle("Registrar Suministrador");
+		if (miSumi == null) {
+			setTitle("Registrar Suministrador");
+		}else {
+			setTitle("Modificar Suministrador");
+		}
+		
 		setBounds(100, 100, 442, 204);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -42,6 +52,11 @@ public class regSuministrador extends JDialog {
 		contentPanel.add(lblNombre);
 		
 		txtNombre = new JTextField();
+		if (sumi == null) {
+			txtNombre.setEditable(true);
+		}else {
+			txtNombre.setEditable(false);
+		}
 		txtNombre.setBounds(10, 40, 414, 20);
 		contentPanel.add(txtNombre);
 		txtNombre.setColumns(10);
@@ -54,12 +69,12 @@ public class regSuministrador extends JDialog {
 		lblTiempoEntrega.setBounds(221, 71, 130, 14);
 		contentPanel.add(lblTiempoEntrega);
 		
-		JComboBox cbxPais = new JComboBox();
+		cbxPais = new JComboBox();
 		cbxPais.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Chile", "Republica Dominicana", "Espa\u00F1a", "Francia", "Italia", "Portugal"}));
 		cbxPais.setBounds(10, 96, 184, 20);
 		contentPanel.add(cbxPais);
 		
-		JSpinner spnTiempo = new JSpinner();
+		spnTiempo = new JSpinner();
 		spnTiempo.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		spnTiempo.setBounds(221, 96, 203, 20);
 		contentPanel.add(spnTiempo);
@@ -69,15 +84,31 @@ public class regSuministrador extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
+				okButton = new JButton();
+				if(sumi == null) {
+					okButton.setText("Registrar");
+				}else {
+					okButton.setText("Modificar");
+				}
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Suministrador aux = new Suministrador(txtNombre.getText(), cbxPais.getSelectedItem().toString(), Integer.valueOf(spnTiempo.getValue().toString()));
-						miAlma.insertarSuministrador(aux);
-						JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
-						clean();
+						String nombre = txtNombre.getText();
+						if (sumi == null) {
+							Suministrador aux = new Suministrador(txtNombre.getText(), cbxPais.getSelectedItem().toString(), Integer.valueOf(spnTiempo.getValue().toString()));
+							miAlma.insertarSuministrador(aux);
+							JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
+							clean();
+						}else {
+							sumi.setNombre(txtNombre.getText());
+							sumi.setPais(cbxPais.getSelectedItem().toString());
+							sumi.setTiempo(Integer.parseInt(spnTiempo.getValue().toString()));
+							miAlma.modAdministrador(miSumi);
+							JOptionPane.showMessageDialog(null, "Operación exitosa", "Información", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							listSuministrador.loadTable();
+						}
+						
 					}
-
 					private void clean() {
 						txtNombre.setText("");
 						cbxPais.setSelectedIndex(0);
@@ -99,5 +130,16 @@ public class regSuministrador extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadSuministrador();
+	}
+	
+	private void loadSuministrador() {
+		if(sumi != null){
+			txtNombre.setText(sumi.getNombre());
+			cbxPais.setSelectedItem(sumi.getPais().toString());
+			spnTiempo.setValue(sumi.getTiempo());
+		}
+		
+		
 	}
 }

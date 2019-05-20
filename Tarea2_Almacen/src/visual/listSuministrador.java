@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,14 +15,22 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logica.Almacen;
+import logica.Suministrador;
+
+import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class listSuministrador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private DefaultTableModel model;
+	private static DefaultTableModel model;
 	private static Object[] fila;
-	private Almacen miAlma;
+	private static Almacen miAlma;
+	private String nombreSumi;
+	private JButton btnModificar;
+	private JButton btnEliminar;
 	/**
 	 * Launch the application.
 	 */
@@ -46,6 +55,18 @@ public class listSuministrador extends JDialog {
 				String[] header = {"Nombre", "Pais", "Tiempo de entrega"};
 				model.setColumnIdentifiers(header);
 				table = new JTable();
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (table.getSelectedRow() >= 0) {
+							int index = table.getSelectedRow();
+							btnModificar.setEnabled(true);
+							btnEliminar.setEnabled(true);
+							nombreSumi = (String) table.getValueAt(index, 0);
+						}
+					}
+				});
+				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				table.setModel(model);
 				scrollPane.setViewportView(table);
 				loadTable();
@@ -56,14 +77,38 @@ public class listSuministrador extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Modificar");
-				okButton.setEnabled(false);
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnModificar = new JButton("Modificar");
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (!nombreSumi.equalsIgnoreCase("")) {
+							Suministrador aux = miAlma.buscarSuministradorByName(nombreSumi);
+							regSuministrador reg = new regSuministrador(alma,aux);
+							reg.setModal(true);
+							reg.setVisible(true);
+							reg.dispose();
+							
+						}
+					}
+				});
+				btnModificar.setEnabled(false);
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int option = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar el Suministrador: " + nombreSumi, "Eliminar", JOptionPane.WARNING_MESSAGE);
+						if (option == 0) {
+							miAlma.EliminarSuministrador(nombreSumi);
+							JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
+							loadTable();
+							btnModificar.setEnabled(false);
+							btnEliminar.setEnabled(false);
+						}
+					}
+				});
 				btnEliminar.setEnabled(false);
 				buttonPane.add(btnEliminar);
 			}
@@ -79,7 +124,7 @@ public class listSuministrador extends JDialog {
 			}
 		}
 	}
-	private void loadTable() {
+	static void loadTable() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		for (int i = 0; i < miAlma.getCantSum(); i++) {

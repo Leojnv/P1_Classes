@@ -3,7 +3,7 @@ package logica;
 public class Vino {
 	
 	//Atributos
-	private int codigo;
+	private String codigo;
 	private Suministrador miSum;
 	private String nombre;
 	private String tipo;
@@ -13,7 +13,7 @@ public class Vino {
 	private int[] ventas;
 	
 	//Constructor
-	public Vino(int codigo, Suministrador miSum, String nombre, String tipo, int cantMax, int cantMin, int cantReal) {
+	public Vino(String codigo, Suministrador miSum, String nombre, String tipo, int cantMax, int cantMin, int cantReal) {
 		this.codigo = codigo;
 		this.miSum = miSum;
 		this.nombre = nombre;
@@ -25,10 +25,10 @@ public class Vino {
 	}
 	
 	//Sets y Gets
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public Suministrador getMiSum() {
