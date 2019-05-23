@@ -61,7 +61,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmRegistrar = new JMenuItem("Registrar");
 		mntmRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				regVino reg = new regVino(miAlma);
+				regVino reg = new regVino(miAlma,null);
 				reg.setModal(true);
 				reg.setVisible(true);
 			}

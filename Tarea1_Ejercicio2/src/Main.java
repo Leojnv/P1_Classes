@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		int[] bestTimes = new int[5];
-		int Record = 11;
+		int Record = 7;
 		for (int i = 0; i < 5; i++) {
 			bestTimes[i] = 10;
 		}
