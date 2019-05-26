@@ -136,7 +136,7 @@ public class Almacen {
 		return aux;
 	}
 
-	private int buscarVino(String codigo) {
+	public int buscarVino(String codigo) {
 		int aux = -1;
 		boolean encontrado = false;
 		int i = 0;
@@ -144,6 +144,19 @@ public class Almacen {
 			if(ListVin[i].getCodigo().equalsIgnoreCase(codigo)) {
 				encontrado = true;
 				aux = i;
+			}
+			i++;
+		}
+		return aux;
+	}
+	public Vino returnVinoByName(String nombre) {
+		Vino aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado &&  i < cantVinos) { //Mientras no se haya encontrado e i sea menor a la cantidad de vinos
+			if(ListVin[i].getNombre().equalsIgnoreCase(nombre)) {
+				encontrado = true;
+				aux = ListVin[i];
 			}
 			i++;
 		}

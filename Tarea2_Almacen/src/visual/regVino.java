@@ -178,6 +178,12 @@ public class regVino extends JDialog {
 							int cosecha = Integer.valueOf(spnCosecha.getValue().toString());
 							if (miVino == null) {
 								Vino aux = new Vino(codigo, sumi, nombre, tipo, cmax, cmin, creal, cosecha);
+								//probando las ventas
+								int[] sold = new int[10];
+								for (int i = 0; i < 10; i++) {
+									sold[i] = i+1;
+								}
+								aux.setVentas(sold);
 								miAlma.insertarVino(aux);
 								JOptionPane.showMessageDialog(null, "Operacion exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 								clean();
@@ -190,7 +196,7 @@ public class regVino extends JDialog {
 								miVino.setCantReal(creal);
 								miVino.setCosecha(cosecha);
 								miAlma.modVino(miVino);
-								JOptionPane.showMessageDialog(null, "Operación exitosa", "Información", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Operaciï¿½n exitosa", "Informaciï¿½n", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 								listVino.loadTable();
 							}

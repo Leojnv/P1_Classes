@@ -53,7 +53,7 @@ public class Principal extends JFrame {
 		dim = super.getToolkit().getScreenSize(); //para obtener las dimensiones de la pantalla
 		//super.setSize(dim.width, dim.height-50);; // definir el tamaño de la pantalla completa
 		setLocationRelativeTo(null); // para que se abra centrado
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -79,6 +79,16 @@ public class Principal extends JFrame {
 			}
 		});
 		mnVino.add(mntmListado);
+		
+		JMenuItem mntmVentas = new JMenuItem("Ventas");
+		mntmVentas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Ventas ven = new Ventas(miAlma);
+				ven.setModal(true);
+				ven.setVisible(true);
+			}
+		});
+		mnVino.add(mntmVentas);
 		
 		JMenu mnSuministrador = new JMenu("Suministrador");
 		menuBar.add(mnSuministrador);
