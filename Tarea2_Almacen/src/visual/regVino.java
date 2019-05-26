@@ -25,19 +25,23 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.DefaultComboBoxModel;
 
+@SuppressWarnings("serial")
 public class regVino extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private Almacen miAlma;
 	private Vino miVino = null;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxSuministrador;
 	private JTextField txtCodigo;
 	private JTextField txtNombre;
 	private JButton btnRegistrar;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxTipo;
 	private JSpinner spnMaxima;
 	private JSpinner spnMinima;
 	private JSpinner spnReal;
+	private JSpinner spnCosecha;
 	/**
 	 * Launch the application.
 	/*
@@ -45,10 +49,11 @@ public class regVino extends JDialog {
 	 * Create the dialog.
 	 * @param miAlma 
 	 */
-	public regVino(Almacen miAlma, Vino miVino) {
-		
-		this.miAlma = miAlma;
-		this.miVino = miVino;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public regVino(Almacen alma, Vino vino) {
+		setResizable(false);
+		this.miAlma = alma;
+		this.miVino = vino;
 		if (miVino == null) {
 			setTitle("Registrar Vino");
 		}else {
@@ -72,8 +77,10 @@ public class regVino extends JDialog {
 			
 			txtCodigo = new JTextField();
 			txtCodigo.setEditable(false);
-			if(miVino==null){
-				txtCodigo.setText("V-"+(miAlma.getCantVinos()+1));
+			if (miVino == null) {
+				txtCodigo.setText("V-"+(Vino.generatedCode));
+			}else {
+				txtCodigo.setText(miVino.getCodigo());
 			}
 			txtCodigo.setBounds(50, 27, 86, 20);
 			panel.add(txtCodigo);
@@ -92,7 +99,7 @@ public class regVino extends JDialog {
 			lblCosecha.setBounds(244, 55, 135, 14);
 			panel.add(lblCosecha);
 			
-			JSpinner spnCosecha = new JSpinner();
+			spnCosecha = new JSpinner();
 			spnCosecha.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 			spnCosecha.setBounds(244, 80, 135, 20);
 			panel.add(spnCosecha);
@@ -168,9 +175,25 @@ public class regVino extends JDialog {
 							int cmax = Integer.valueOf(spnMaxima.getValue().toString());
 							int cmin = Integer.valueOf(spnMinima.getValue().toString());
 							int creal = Integer.valueOf(spnReal.getValue().toString());
-							Vino aux = new Vino(codigo, sumi, nombre, tipo, cmax, cmin, creal);
-							miAlma.insertarVino(aux);
-							JOptionPane.showMessageDialog(null, "Operación exitosa", "Información", JOptionPane.INFORMATION_MESSAGE);
+							int cosecha = Integer.valueOf(spnCosecha.getValue().toString());
+							if (miVino == null) {
+								Vino aux = new Vino(codigo, sumi, nombre, tipo, cmax, cmin, creal, cosecha);
+								miAlma.insertarVino(aux);
+								JOptionPane.showMessageDialog(null, "Operacion exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								clean();
+							} else {
+								miVino.setMiSum(sumi);
+								miVino.setNombre(nombre);
+								miVino.setTipo(tipo);
+								miVino.setCantMax(cmax);
+								miVino.setCantMin(cmin);
+								miVino.setCantReal(creal);
+								miVino.setCosecha(cosecha);
+								miAlma.modVino(miVino);
+								JOptionPane.showMessageDialog(null, "Operación exitosa", "Información", JOptionPane.INFORMATION_MESSAGE);
+								dispose();
+								listVino.loadTable();
+							}
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
@@ -190,6 +213,21 @@ public class regVino extends JDialog {
 			loadSumis();
 		}
 	}
+	private void clean() {
+		if (miVino == null) {
+			txtCodigo.setText("V-"+(Vino.generatedCode));
+		}else {
+			txtCodigo.setText(miVino.getCodigo());
+		}
+		cbxSuministrador.setSelectedIndex(0);
+		txtNombre.setText(" ");
+		cbxTipo.setSelectedIndex(0);
+		spnMaxima.setValue(new Integer(1));
+		spnMinima.setValue(new Integer(1));
+		spnReal.setValue(new Integer(1));
+		spnCosecha.setValue(new Integer(1));
+	}
+	@SuppressWarnings("unchecked")
 	private void loadSumis() {
 		cbxSuministrador.removeAll();
 		for (int i = 0; i < miAlma.getCantSum(); i++) {

@@ -20,16 +20,20 @@ import javax.swing.border.TitledBorder;
 import logica.Almacen;
 import logica.Suministrador;
 
+@SuppressWarnings("serial")
 public class regSuministrador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
+	@SuppressWarnings("unused")
 	private Almacen miAlma;
 	private Suministrador sumi = null;
 	private JButton okButton;
 	private JSpinner spnTiempo;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxPais;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public regSuministrador(Almacen miAlma, Suministrador miSumi) {
 		this.miAlma = miAlma;
 		this.sumi = miSumi;
@@ -91,6 +95,7 @@ public class regSuministrador extends JDialog {
 					okButton.setText("Modificar");
 				}
 				okButton.addActionListener(new ActionListener() {
+					@SuppressWarnings("unused")
 					public void actionPerformed(ActionEvent e) {
 						String nombre = txtNombre.getText();
 						if (sumi == null) {

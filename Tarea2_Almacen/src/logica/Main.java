@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		Almacen alma = new Almacen();
 		Suministrador s1 = new Suministrador("Pedro", "RD", 29);
-		Vino v1 = new Vino("1", s1, "Carlos Rosi", "Tinto", 50, 10, 9);
+		Vino v1 = new Vino("1", s1, "Carlos Rosi", "Tinto", 50, 10, 9,3);
 
 		int[] ven = new int[10];
 		for (int i = 0; i < 10; i++) {

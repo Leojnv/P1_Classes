@@ -3,17 +3,19 @@ package logica;
 public class Vino {
 	
 	//Atributos
+	public static int generatedCode = 1;
 	private String codigo;
 	private Suministrador miSum;
 	private String nombre;
 	private String tipo;
+	private int cosecha;
 	private int cantMax;
 	private int cantMin;
 	private int cantReal;
 	private int[] ventas;
 	
 	//Constructor
-	public Vino(String codigo, Suministrador miSum, String nombre, String tipo, int cantMax, int cantMin, int cantReal) {
+	public Vino(String codigo, Suministrador miSum, String nombre, String tipo, int cantMax, int cantMin, int cantReal, int cosecha) {
 		this.codigo = codigo;
 		this.miSum = miSum;
 		this.nombre = nombre;
@@ -21,6 +23,7 @@ public class Vino {
 		this.cantMax = cantMax;
 		this.cantMin = cantMin;
 		this.cantReal = cantReal;
+		this.cosecha = cosecha;
 		this.ventas = new int[10];
 	}
 	
@@ -73,11 +76,16 @@ public class Vino {
 	public void setVentas(int[] ventas) {
 		this.ventas = ventas;
 	}
-	
+	public int getCosecha() {
+		return cosecha;
+	}
+	public void setCosecha(int cosecha) {
+		this.cosecha = cosecha;
+	}
 	//Metodos
 	public boolean promedio() {
 		int sum = 0;
-		//Promedio de los ultimos 3 años
+		//Promedio de los ultimos 3 aï¿½os
 		for (int i = 6; i < 9; i++) { 
 			sum += ventas[i];
 		}
@@ -88,4 +96,6 @@ public class Vino {
 			return false;
 		}
 	}
+
+
 }

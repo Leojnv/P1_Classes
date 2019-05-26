@@ -17,9 +17,11 @@ import javax.swing.border.EmptyBorder;
 
 import logica.Almacen;
 
+@SuppressWarnings("serial")
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
+	@SuppressWarnings("unused")
 	private Dimension dim; //Variable stores Width x Height
 	private Almacen miAlma;
 	/**
@@ -47,9 +49,9 @@ public class Principal extends JFrame {
 		setTitle("Giraldilla");
 		setResizable(false); //para que no se pueda redimensionar
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 480); // definir las dimensiones de la pantalla
+		setBounds(100, 100, 1280, 720); // definir las dimensiones de la pantalla
 		dim = super.getToolkit().getScreenSize(); //para obtener las dimensiones de la pantalla
-		super.setSize(dim.width, dim.height-50);; // definir el tamaño de la pantalla completa
+		//super.setSize(dim.width, dim.height-50);; // definir el tamaño de la pantalla completa
 		setLocationRelativeTo(null); // para que se abra centrado
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -69,6 +71,13 @@ public class Principal extends JFrame {
 		mnVino.add(mntmRegistrar);
 		
 		JMenuItem mntmListado = new JMenuItem("Listado");
+		mntmListado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listVino list = new listVino(miAlma);
+				list.setModal(true);
+				list.setVisible(true);
+			}
+		});
 		mnVino.add(mntmListado);
 		
 		JMenu mnSuministrador = new JMenu("Suministrador");
