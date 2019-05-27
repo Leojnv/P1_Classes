@@ -217,21 +217,33 @@ public class regVino extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 			loadSumis();
+			loadVino();
 		}
 	}
+	protected void loadVino() {
+		if (miVino != null) {
+			txtCodigo.setText(miVino.getCodigo());
+			cbxSuministrador.setSelectedItem(miVino.getMiSum().getNombre().toString());
+			txtNombre.setText(miVino.getNombre());
+			cbxTipo.setSelectedItem(miVino.getTipo().toString());
+			spnMaxima.setValue(miVino.getCantMax());
+			spnMinima.setValue(miVino.getCantMin());
+			spnReal.setValue(miVino.getCantReal());
+			spnCosecha.setValue(miVino.getCosecha());
+		}
+		
+	}	
 	private void clean() {
 		if (miVino == null) {
 			txtCodigo.setText("V-"+(Vino.generatedCode));
-		}else {
-			txtCodigo.setText(miVino.getCodigo());
+			cbxSuministrador.setSelectedIndex(0);
+			txtNombre.setText(" ");
+			cbxTipo.setSelectedIndex(0);
+			spnMaxima.setValue(new Integer(1));
+			spnMinima.setValue(new Integer(1));
+			spnReal.setValue(new Integer(1));
+			spnCosecha.setValue(new Integer(1));
 		}
-		cbxSuministrador.setSelectedIndex(0);
-		txtNombre.setText(" ");
-		cbxTipo.setSelectedIndex(0);
-		spnMaxima.setValue(new Integer(1));
-		spnMinima.setValue(new Integer(1));
-		spnReal.setValue(new Integer(1));
-		spnCosecha.setValue(new Integer(1));
 	}
 	@SuppressWarnings("unchecked")
 	private void loadSumis() {
