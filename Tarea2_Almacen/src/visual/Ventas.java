@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logica.Almacen;
@@ -24,6 +23,7 @@ public class Ventas extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private Almacen miAlma;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxVinos;
 	private JTable table;
 	private static DefaultTableModel model;
@@ -33,6 +33,7 @@ public class Ventas extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	@SuppressWarnings("rawtypes")
 	public Ventas(Almacen alma) {
 		this.miAlma = alma;
 		setTitle("Ventas");
@@ -106,6 +107,7 @@ public class Ventas extends JDialog {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	private void loadVinos() {
 		cbxVinos.removeAll();
 		for (int i = 0; i < miAlma.getCantVinos(); i++) {
