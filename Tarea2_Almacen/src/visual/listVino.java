@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -101,11 +102,10 @@ public class listVino extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//int option = JOptionPane.showConfirmDialog(null, "Esta seguro de que desea eliminar el vino:" + miAlma.buscarVinoByCod(codVino).getNombre() , "Eliminar", JOptionPane.WARNING_MESSAGE);
-						int option =0;
+						int option = JOptionPane.showConfirmDialog(null, "Esta seguro de que desea eliminar el vino:" + miAlma.buscarVinoByCod(codVino).getNombre() , "Eliminar", JOptionPane.WARNING_MESSAGE);
 						if (option == 0) {
 							miAlma.eliminarVino(codVino);
-							//JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
+							JOptionPane.showMessageDialog(null, "Operacion satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE, null);
 							loadTable();
 							btnModificar.setEnabled(false);
 							btnEliminar.setEnabled(false);
